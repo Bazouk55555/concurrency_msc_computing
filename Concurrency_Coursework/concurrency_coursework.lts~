@@ -1,0 +1,25 @@
+range T = 0..20
+set VarAlpha = { value.{read[T],write[T]} } 
+
+VAR = VAR[0],
+VAR[i:T]= (read[i]->VAR[i]
+	|write[v:T]->VAR[v])+VarAlpha.
+
+
+EAST_TURNSTILE = (open->RUN),
+RUN= (enter->EAST_INCREMENT
+	  |close->EAST_TURNSTILE),
+EAST_INCREMENT= (value.read[i:T]->value.write[i+1]->RUN)+VarAlpha.
+
+WEST_TURNSTILE = (open->RUN),
+RUN= (enter->WEST_INCREMENT),
+WEST_INCREMENT= (value.read[i:T]->value.write[i-1]->RUN).
+
+||GARDEN=(east:EAST_TURNSTILE||west:WEST_TURNSTILE||{east,west}::value:VAR||controller:CONTROLLER||director:DIRECTOR)/{open/{east.open,west.open,controller.open,director.open},close/{east.close,director.close}}.
+
+CONTROLLER = (value.read[0]->empty->open->CONTROLLER).
+
+DIRECTOR = (open->DIRECTOR
+	|close->DIRECTOR).
+
+

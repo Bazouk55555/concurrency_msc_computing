@@ -1,0 +1,1 @@
+INDEX VERSION 1.126+/homes/aeb115/Desktop/Concurrency/Concurrency2/coaster/.metadata/.plugins/org.eclipse.jdt.core

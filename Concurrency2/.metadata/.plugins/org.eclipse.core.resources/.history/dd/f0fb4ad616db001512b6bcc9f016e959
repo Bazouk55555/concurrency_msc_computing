@@ -1,0 +1,56 @@
+
+
+/**
+ * Complete the implementation of this class in line with the FSP model
+ */
+
+import display.*;
+
+public class Controller {
+
+  public static int Max = 9;
+  protected NumberCanvas passengers;
+
+  // declarations required
+  int count;
+  Boolean go;
+
+  public Controller(NumberCanvas nc) {
+    passengers = nc;
+    count=0;
+    // A new boolean is added to check is the button 
+    // goNow is pressed
+    go=false;
+  }
+
+  public synchronized void newPassenger() throws InterruptedException {
+	  // Nothing has changed in this code
+	  if(count<Max){
+		  count++;
+		  passengers.setValue(count);
+		  notify();
+	  }
+  }
+
+  public synchronized int getPassengers(int mcar) throws InterruptedException {
+	  //It now also checks if the button goNow is pressed
+	  while(count<mcar&&go==false){
+		  wait();
+	  }
+	  // This integer represents the number of passenger which comes into the coaster car
+	  int passenger_in_car=Math.min(mcar,count);
+	  count-=passenger_in_car;
+	  go=false;
+	  passengers.setValue(count);
+     return passenger_in_car; // dummy value to allow compilation
+  }
+
+  public synchronized void goNow() {
+    // complete implementation for part II
+	  if (count>0){
+		  go=true;
+		  notify();
+	  }
+  }
+
+}

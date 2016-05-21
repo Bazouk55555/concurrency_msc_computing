@@ -1,0 +1,22 @@
+
+/**
+ * Complete the implementation of this class in line with the FSP model
+ */
+
+public class PlatformAccess {
+
+  /* declarations required */
+	/*CoasterCar cc1=new CoasterCar();
+	CoasterCar cc2=new CoasterCar();;	
+	Thread car1;
+	Thread car2;*/
+
+  public synchronized void arrive() throws InterruptedException {
+	  
+  }
+
+  public synchronized void depart() {
+	  
+  }
+
+}

@@ -1,0 +1,43 @@
+const N=2
+range T = 0..N
+set VarAlpha = { value.{read[T],write[T]} } 
+
+EAST_TURNSTILE = (open->RUN),
+RUN= (enter-> RUN
+	  |close->EAST_TURNSTILE).
+
+WEST_TURNSTILE = (open->RUN),
+RUN= (exit->RUN
+	 |empty->WEST_TURNSTILE).
+
+CONTROLLER = CONTROLLER[0],
+CONTROLLER[i:T]= (when (i==0) enter->CONTROLLER[i+1]
+				|when (i>0 && i<N) enter->CONTROLLER[i+1]
+				|when (i>0 && i<N) exit->CONTROLLER[i-1]
+				|when (i==N) exit->CONTROLLER[i-1]
+				|close->WARNING[i]),
+
+WARNING[j:T]=(when (j>0) exit->WARNING[j-1]
+			|when (j==0) empty->CONTROLLER).
+				
+
+DIRECTOR = (open->DIRECTOR
+	|close->DIRECTOR).
+
+||MUSEUM=(east:EAST_TURNSTILE||west:WEST_TURNSTILE||controller:CONTROLLER||director:DIRECTOR)/{open/{east.open,west.open,director.open},
+close/{east.close,director.close,controller.close},enter/{east.enter,controller.enter},exit/{west.exit,controller.exit},empty/{controller.empty,west.empty}}.
+
+TEST = (close-> enter->ERROR).
+
+||TESTMUSEUM=(TEST||MUSEUM).
+
+P = STOP + {exit}.
+
+||PREVENT_EXIT=(P||MUSEUM).
+
+
+
+
+
+
+

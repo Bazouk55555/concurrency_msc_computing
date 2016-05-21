@@ -1,0 +1,10 @@
+
+public class Distinct {
+	public Boolean distinction(Object array [] ){
+		for(int i=0;i<array.length;i++){
+			for(int j=i;j<array.length;j++){
+				return false;
+			}
+		}
+	}
+}
